@@ -1,4 +1,4 @@
-# Wander Wise 🌍  
+# Wander Wise - AI Trip Planner
 An AI-powered trip planner that simplifies travel planning. With **Wander Wise**, users can sign in, provide trip preferences, and receive AI-curated itineraries, including top-rated hotels and day-wise plans. 
 
 ![Screenshot 2024-11-22 204310](https://github.com/user-attachments/assets/d2228d9d-3d77-46de-8f60-d19b3cf546a7)
