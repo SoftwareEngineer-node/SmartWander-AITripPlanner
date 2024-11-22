@@ -1,28 +1,31 @@
-import React from 'react'
-import PlaceCardItem from './PlaceCardItem'
+import React from 'react';
+import PlaceCardItem from './PlaceCardItem';
 
-function PlacesToVisit({trip}) {
+function PlacesToVisit({ trip }) {
+  const itinerary = trip.tripData?.itinerary;
+
   return (
     <div>
-        <h2 className='my-5 text-xl font-bold'>Top Attractions</h2>
-        <div>
-          {trip.tripData?.itinerary.map((item,index)=>(
-            <div className='mt-5'>
-            <h2 className='text-lg font-medium'>Day {item.day}</h2>
-            <div className='grid gap-5 md:grid-cols-2'>
-            {item.plan.map((place,index)=>(
-              <div>
-                <h2 className='text-sm font-medium text-blue-600'>{place.time}</h2>
-                <PlaceCardItem place={place}/>
-
+      <h2 className="my-5 text-xl font-bold">Top Attractions</h2>
+      <div>
+        {itinerary &&
+          Object.keys(itinerary).map((dayKey) => (
+            <div key={dayKey} className="mt-5">
+              <h2 className="text-lg font-medium capitalize">{dayKey}</h2>
+              <div className="grid gap-5 md:grid-cols-2">
+                {itinerary[dayKey].map((place, index) => (
+                  <div key={index}>
+                    <h2 className="text-sm font-medium text-blue-600">{place.timeTravel}</h2>
+                    <PlaceCardItem place={place} />
+                  </div>
+                ))}
               </div>
-            ))}
             </div>
-        </div>
           ))}
-        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default PlacesToVisit
+export default PlacesToVisit;
+
