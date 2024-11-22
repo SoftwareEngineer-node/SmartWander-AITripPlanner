@@ -30,8 +30,7 @@ function PlaceCardItem({place}) {
                 <h2 className='text-lg font-bold'>{place.placeName}</h2>
                 <p className='text-sm text-gray-400'>{place.placeDetails}</p>
                 <h2 className='flex items-center gap-2 text-sm text-black'><img src="https://em-content.zobj.net/source/whatsapp/401/ticket_1f3ab.png" width={15}/>{place.ticketPricing}</h2>
-                <h2 className='flex items-center gap-2 text-sm text-black' ><img src="https://em-content.zobj.net/source/samsung/405/ten-oclock_1f559.png" width={15}/>{place.timeTravel
-                }</h2>
+                <h2 className='flex items-center gap-2 text-sm text-black' ><img src="https://em-content.zobj.net/source/samsung/405/ten-oclock_1f559.png" width={15}/>{place.time}</h2>
             </div>
         </div>
     </Link>
