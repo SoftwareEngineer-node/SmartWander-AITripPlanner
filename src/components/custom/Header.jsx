@@ -55,16 +55,12 @@ function Header() {
         {user ? (
           <div className="flex items-center gap-5">
             {/* Use Link for navigation */}
-            <Link to="/create-trip">
-              <Button variant="outline" className="text-black rounded-full">
-                Create Trip
-              </Button>
-            </Link>
-            <Link to="/history">
-              <Button variant="outline" className="text-black rounded-full">
-                History
-              </Button>
-            </Link>
+            <a href="/create-trip">
+              <Button variant="outline" className="text-black rounded-full">Create Trip</Button>
+            </a>
+            <a href="/history">
+              <Button variant="outline" className="text-black rounded-full">History</Button>
+           </a> 
             <Popover>
               <PopoverTrigger>
                 <img
