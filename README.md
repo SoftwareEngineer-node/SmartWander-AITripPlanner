@@ -22,7 +22,7 @@ Key components:
 
 ## 🌐 Live Application
 
-**URL**: [https://your-vercel-url.vercel.app](https://your-vercel-url.vercel.app)  
+**URL**: [WanderWise](https://wander-wise-app.netlify.app/) 
 
 ---
 
