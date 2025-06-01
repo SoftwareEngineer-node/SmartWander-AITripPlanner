@@ -1,48 +1,88 @@
-import { Button } from '@/components/ui/button'
-import React, { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button';
+import React, { useEffect, useState } from 'react';
 import { IoSend } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
-import { GetPlaceDetails, PHOTO_REF_URL } from '@/service/GlobalApi';
+import axios from 'axios';
 
+function InfoSection({ trip }) {
+  const [photoUrl, setPhotoUrl] = useState();
 
-function InfoSection({trip}) {
-
-  const [photoUrl,setPhotoUrl] = useState();
-
-  useEffect(()=>{
-    trip&&GetPlacePhoto();
-  },[trip])
-
-  const GetPlacePhoto=async()=>{
-    const data={
-      textQuery:trip?.userSelection?.location?.label
+  useEffect(() => {
+    if (trip) {
+      console.log("Trip Data:", trip);
+      GetPlacePhoto();
     }
-    const result=await GetPlaceDetails(data).then(resp=>{
-      console.log(resp.data.places[0].photos[0].name)
-      const PhotoUrl=PHOTO_REF_URL.replace('{NAME}',resp.data.places[0].photos[0].name)
-      setPhotoUrl(PhotoUrl)
-    })
-  }
-  
+  }, [trip]);
+
+  const GetPlacePhoto = async () => {
+    const query = trip?.userSelection?.location?.label || trip?.userSelection?.location?.display_name;
+    if (!query) return;
+
+    try {
+      const res = await axios.get(
+        `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1`,
+        {
+          headers: {
+            Authorization: import.meta.env.VITE_PEXELS_API_KEY,
+          },
+        }
+      );
+
+      if (res.data.photos?.length > 0) {
+        setPhotoUrl(res.data.photos[0].src.landscape);
+      } else {
+        setPhotoUrl("/placeholder.jpg");
+      }
+    } catch (error) {
+      console.error("Error fetching photo from Pexels:", error);
+      setPhotoUrl("/placeholder.jpg");
+    }
+  };
+
   return (
+    <div className="w-full">
+      {/* Banner Image */}
+      <img
+        src={photoUrl || "/placeholder.jpg"}
+        className="w-full h-[250px] md:h-[350px] object-cover rounded-lg"
+        alt="Destination"
+      />
 
-    <div>
-        <img src={photoUrl?photoUrl:"/placeholder.jpg"} className='h-[300px] w-full object-cover rounded' />
-        <div className='flex items-center justify-between'>
-          <div className='flex flex-col gap-2 my-5'>
-            <h2 className='flex items-center gap-2 text-2xl font-bold'><FaLocationDot />{trip?.userSelection?.location?.label}</h2>
-            <div className='flex gap-6'>
-              <h2 className='flex items-center gap-2 p-1 px-3 text-sm text-gray-500 bg-gray-200 rounded-full md:text-md'><img src="https://em-content.zobj.net/source/twitter/348/calendar_1f4c5.png" width={20}/> {trip.userSelection?.noOfDays} Day</h2>
-              <h2 className="flex items-center gap-2 p-1 px-3 text-sm text-gray-500 bg-gray-200 rounded-full md:text-md"><img src="https://em-content.zobj.net/source/twitter/348/coin_1fa99.png" width={20}/>{trip.userSelection?.budget} Budget</h2>
-              <h2 className='flex items-center gap-2 p-1 px-3 text-sm text-gray-500 bg-gray-200 rounded-full md:text-md'><img src="https://em-content.zobj.net/source/twitter/348/clinking-beer-mugs_1f37b.png" width={20}/> No. Of Traveler: {trip.userSelection?.traveler}</h2>
-            </div>
+      {/* Trip Details */}
+      <div className="flex flex-col gap-4 my-6 md:flex-row md:justify-between md:items-center">
+        <div className="flex flex-col gap-3">
+          <h2 className="flex items-center gap-2 text-xl font-semibold text-gray-800 md:text-2xl">
+            <FaLocationDot className="text-black" />
+            {trip?.userSelection?.location?.label ||
+              trip?.userSelection?.location?.display_name ||
+              'Unknown Location'}
+          </h2>
+
+          <div className="flex flex-wrap gap-3 text-sm md:text-base">
+            {trip?.userSelection?.noOfDays && (
+              <span className="flex items-center gap-2 px-3 py-1 text-gray-600 bg-gray-100 rounded-full">
+                <img src="https://em-content.zobj.net/source/twitter/348/calendar_1f4c5.png" width={20} />
+                {trip.userSelection.noOfDays} Day
+              </span>
+            )}
+            {trip?.userSelection?.budget && (
+              <span className="flex items-center gap-2 px-3 py-1 text-gray-600 bg-gray-100 rounded-full">
+                <img src="https://em-content.zobj.net/source/twitter/348/coin_1fa99.png" width={20} />
+                {trip.userSelection.budget} Budget
+              </span>
+            )}
+            {trip?.userSelection?.traveler && (
+              <span className="flex items-center gap-2 px-3 py-1 text-gray-600 bg-gray-100 rounded-full">
+                <img src="https://em-content.zobj.net/source/twitter/348/clinking-beer-mugs_1f37b.png" width={20} />
+                No. of Traveler: {trip.userSelection.traveler}
+              </span>
+            )}
           </div>
-          <Button><IoSend /></Button>
         </div>
-   
-    </div>
 
-  )
+      </div>
+    </div>
+  );
 }
 
-export default InfoSection
+export default InfoSection;

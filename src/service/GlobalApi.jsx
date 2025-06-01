@@ -1,14 +1,26 @@
 import axios from "axios";
 
-const BASE_URL = 'https://places.googleapis.com/v1/places:searchText';
+const LOCATIONIQ_API_KEY = import.meta.env.VITE_LOCATIONIQ_API_KEY;
+const PEXELS_API_KEY = import.meta.env.VITE_PEXELS_API_KEY;
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Goog-Api-Key': import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
-    'X-Goog-FieldMask': ['places.displayName','places.photos','places.id']
-  }   
-}
+// === LocationIQ: Forward Geocoding (search place info based on text input) ===
+export const getPlaceDetails = async (query) => {
+  const url = `https://us1.locationiq.com/v1/search.php?key=${LOCATIONIQ_API_KEY}&q=${encodeURIComponent(query)}&format=json`;
+  return axios.get(url);
+};
 
-export const GetPlaceDetails= (data) => axios.post(BASE_URL,data,config);
-export const PHOTO_REF_URL='https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=2000&maxWidthPx=2000&key='+import.meta.env.VITE_GOOGLE_PLACE_API_KEY
+// === LocationIQ: Reverse Geocoding (optional, if needed) ===
+export const getPlaceByCoords = async (lat, lon) => {
+  const url = `https://us1.locationiq.com/v1/reverse.php?key=${LOCATIONIQ_API_KEY}&lat=${lat}&lon=${lon}&format=json`;
+  return axios.get(url);
+};
+
+// === Pexels: Fetch images based on location or place name ===
+export const getPlacePhotoFromPexels = async (query) => {
+  const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1`;
+  return axios.get(url, {
+    headers: {
+      Authorization: PEXELS_API_KEY,
+    },
+  });
+};
