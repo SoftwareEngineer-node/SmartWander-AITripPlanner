@@ -8,7 +8,11 @@ function PlacesToVisit({trip}) {
         <div>
           {trip.tripData?.itinerary.map((item,index)=>(
             <div className='mt-5'>
+<<<<<<< HEAD
             <h2 className='text-lg font-medium'>Day {item.day}</h2>
+=======
+            <h2 className='text-lg font-medium'>{item.day}</h2>
+>>>>>>> a4cfcb93538eea0c77bfb8972f2ddb9b0e75d1cc
             <div className='grid gap-5 md:grid-cols-2'>
             {item.plan.map((place,index)=>(
               <div>
@@ -26,3 +30,8 @@ function PlacesToVisit({trip}) {
 }
 
 export default PlacesToVisit
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a4cfcb93538eea0c77bfb8972f2ddb9b0e75d1cc
