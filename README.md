@@ -1,4 +1,4 @@
-# WanderWise – AI Trip Planner
+# SmartWanderWise – AI Trip Planner
 
 WanderWise is a smart and scalable AI-based travel planning application that automates the creation of personalized itineraries, hotel and food recommendations, and map-based visualizations. Built for modern travelers, it integrates seamlessly with AI and location-based APIs to generate accurate, curated travel experiences in seconds.
 
